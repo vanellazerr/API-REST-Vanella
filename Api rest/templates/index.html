@@ -1,51 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="templates/main.css">
+    <link rel="stylesheet" href="./main.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>reamore.com</title>
 </head>
 <body>
-    <header>
-        <img src="" alt="" class="logo">
-        <span class="menu">Menu</span>
-    </header>
-    <section class="telsa">
-        <main class="telsa">
-            <h1>Model S</h1>
-            <a href="">Schedule a Demo Drive</a>
-            <div class="btn-container">
-                <button class="btn">Custom Order</button>
-                <button class="btn">View Inventory</button>
-            </div>
-        </main>
-    </section>
-    <section class="api-data">
-        <div id="cars">
+<header>
+    <img src="" alt="" class="logo">
+    <span class="menu">Menu</span>
+</header>
+<section class="telsa">
+    <main class="telsa">
+        <h1>Model S</h1>
+        <a href="">Schedule a Demo Drive</a>
+        <div class="btn-container">
+            <button class="btn">Custom Order</button>
+            <button class="btn">View Inventory</button>
         </div>
-    </section>
-        </div>
-    </section>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var model = 'camry';
-            $.ajax({
-                method: 'GET',
-                url: 'https://api.api-ninjas.com/v1/cars?model=' + model,
-                headers: { 'X-Api-Key': 'TaksKhkVg8ZKsZHSPKrzgQ==HCjAlH6uKs0vSRyf'},
-                contentType: 'application/json',
-                success: function(result) {
-                    debugger;
-                    console.log(result);
-                },
-                error: function ajaxError(jqXHR) {
-                    console.error('Error: ', jqXHR.responseText);
-                }
-            });
+    </main>
+</section>
+<section class="api-data">
+    <div id="cars">
+    </div>
+</section>
+</div>
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    /*
+    $(document).ready(function() {
+        var model = 'camry';
+        $.ajax({
+            method: 'GET',
+            url: 'https://api.api-ninjas.com/v1/cars?model=' + model,
+            headers: { 'X-Api-Key': 'TaksKhkVg8ZKsZHSPKrzgQ==HCjAlH6uKs0vSRyf'},
+            contentType: 'application/json',
+            success: function(result) {
+                debugger;
+                console.log(result);
+            },
+            error: function ajaxError(jqXHR) {
+                console.error('Error: ', jqXHR.responseText);
+            }
         });
+    });
+     */
 
-    </script>
+
+
+    window.addEventListener("DOMContentLoaded", function () {
+        const model = 'camry';
+        const url = `https://api.api-ninjas.com/v1/cars?limit=10&model=${model}`
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "X-Api-Key": 'X0wIz5dIqN0zn/85UPRyHQ==BrrrCGEzbA1yVY9C',
+                "Content-Type": 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Problème réseau');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+
+                const dataContainer = document.getElementById("cars");
+
+
+                data.forEach(item => {
+                    const para = document.createElement("p");
+                    para.textContent = `Type de carburant: ${item.fuel_type}, Marque: ${item.make}, Modèle: ${item.model}, Année: ${item.year}`;
+                    dataContainer.appendChild(para);
+                });
+
+            })
+            .catch(error => {
+                console.error('Problème avec le fetch:', error);
+            });
+    })
+
+</script>
 </body>
 </html>
